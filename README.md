@@ -1,4 +1,4 @@
-# 🚀 MERN Stack CRUD Application
+# MERN Stack CRUD Application
 
 A basic full-stack MERN (MongoDB, Express, React, Node.js) application built to understand core backend and frontend integration.
 
@@ -42,88 +42,6 @@ This project demonstrates CRUD operations, REST API design, and image upload fun
 
 ---
 
-##  Project Structure
-
-```
-project-root/
-│
-├── client/        # React frontend
-├── server/        # Express backend
-├── models/        # Mongoose schemas
-├── routes/        # API routes
-└── services/      # Image upload logic
-```
-
----
-
-## ⚙️ Installation & Setup
-
-### 1. Clone the repository
-
-```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
-
----
-
-### 2. Install dependencies
-
-#### Backend
-
-```
-cd server
-npm install
-```
-
-#### Frontend
-
-```
-cd client
-npm install
-```
-
----
-
-### 3. Environment Variables
-
-Create a `.env` file in the backend folder:
-
-```
-MONGO_URI=your_mongodb_connection_string
-IMAGEKIT_PRIVATE_KEY=your_private_key
-IMAGEKIT_PUBLIC_KEY=your_public_key
-IMAGEKIT_URL_ENDPOINT=your_url_endpoint
-```
-
----
-
-### 4. Run the project
-
-#### Start backend
-
-```
-npm run dev
-```
-
-#### Start frontend
-
-```
-npm run dev
-```
-
----
-
-##  API Endpoints
-
-| Method | Endpoint     | Description       |
-| ------ | ------------ | ----------------- |
-| GET    | /posts       | Get all posts     |
-| POST   | /create-post | Create a new post |
-| PATCH  | /posts/:id   | Update a post     |
-| DELETE | /posts/:id   | Delete a post     |
-
----
 
 ##  Future Improvements
 
