@@ -66,9 +66,21 @@ app.patch("/posts/:id", async (req, res) => {//needs to pass a paramter object w
     }, {
         caption: req.body.caption
     })
-    
+
     return res.status(200).json({
         message: "Post updated successfully",
+    })
+})
+
+app.get("/posts/:id", async (req, res) => {
+
+    const id = req.params.id
+
+    const post = await postModel.findById(id)
+
+    return res.status(200).json({
+        message: "post found",
+        post
     })
 })
 

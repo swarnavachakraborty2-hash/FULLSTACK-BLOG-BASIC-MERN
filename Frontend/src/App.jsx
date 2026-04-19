@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import CreatePost from './Pages/createPost';
 import Feed from './Pages/feed';
 import Postcard from './Pages/postcard'
+import "./index.css"
 
 function App() {
   return (

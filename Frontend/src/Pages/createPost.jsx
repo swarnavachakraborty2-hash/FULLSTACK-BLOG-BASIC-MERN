@@ -7,10 +7,10 @@ const CreatePost = () => {
 
   const navigate = useNavigate()
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-                     //multer is used to read thius formdata
+    //multer is used to read thius formdata
     const formData = new FormData(e.target)//creates an object of all the datas in form elements with key(name attribute) and value(value attrubute) of the form.used to send formdata to backend api
 
     await axios.post("http://localhost:5000/create-post", formData)
@@ -25,16 +25,18 @@ const CreatePost = () => {
   }
 
   return (
-    <section className='create-post-section' >
-      <h1>Create post</h1>
+    <section className='create-post-section'>
+      <h1>Create Post</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <input type="file" name="image" accept="image/*" />
         <input type="text" name='caption' placeholder='Enter caption' required />
-        <button type='submit'>Submit</button>
+        <button type='submit'>Upload</button>
       </form>
-      <button onClick={() => navigate("/feed")}>see all posts</button>
 
+      <button className="secondary" onClick={() => navigate("/feed")}>
+        View Feed
+      </button>
     </section>
   )
 }
