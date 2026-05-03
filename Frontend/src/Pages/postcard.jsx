@@ -5,46 +5,84 @@ import axios from 'axios'
 function Postcard() {
     const [img, setImg] = useState("")
     const [caption, setCaption] = useState("")
-    const { id } = useParams()//returns object of key value pairs of the dynamic parameters in the url and we can access the value of the parameter using the key which is the name of the parameter in the route
-    const navigate = useNavigate()
-    console.log(id)
+    const [isOwner, setIsOwner] = useState(false)
 
-    useEffect(() => {//cant use async in useffect so use async inside a function
+    const { id } = useParams()
+    const navigate = useNavigate()
+
+    useEffect(() => {
         const fetchpost = async () => {
-            axios.get(`http://localhost:5000/posts/${id}`)
-                .then((res) => {
-                    console.log(res.data.message);
-                    setImg(res.data.post.image)
-                    setCaption(res.data.post.caption)
-                })
+            try {
+                const res = await axios.get(
+                    `http://localhost:5000/api/user/posts/${id}`,
+                    { withCredentials: true }
+                )
+
+                setImg(res.data.post.uri)
+                setCaption(res.data.post.caption)
+                setIsOwner(res.data.isOwner)
+
+            } catch (error) {
+                console.log(error)
+            }
         }
+
         fetchpost()
     }, [id])
-
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await axios.patch(`http://localhost:5000/posts/${id}`, { caption })// caption sould be send as an object because the backend API is expecting an object with the key as caption and value as the new caption to update the post caption
-            .then((res) => {
-                console.log(res.data)
-            })
-        navigate("/feed")
+        try {
+            await axios.patch(
+                `http://localhost:5000/api/user/posts/${id}`,
+                { caption },
+                { withCredentials: true }
+            )
+
+            navigate("/feed")
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const deletePost = async () => {
-        await axios.delete(`http://localhost:5000/posts/${id}`)
-            .then((res) => { console.log(res.data) });
-        navigate("/feed")
+        try {
+            await axios.delete(
+                `http://localhost:5000/api/user/posts/${id}`,
+                { withCredentials: true }
+            )
+
+            navigate("/feed")
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-
     return (
-        <div className="edit-container">
+        <div className="edit-container ">
+            <button onClick={() => navigate("/feed")}>Back</button>
             <form onSubmit={handleSubmit} className="edit-form">
-                <h2>Edit Post</h2>
+
+
+                <h2
+                    style={{
+                        fontSize: "26px",
+                        fontWeight: "600",
+                        color: "#b6b4b4",
+                        marginBottom: "20px",
+                        borderBottom: "2px solid #979494",
+                        paddingBottom: "8px",
+                        letterSpacing: "0.5px"
+                    }}
+                >
+                    {isOwner ? "Edit Post :" : "View Post :"}
+                </h2>
 
                 <img src={img} alt="" />
+
 
                 <input
                     type="text"
@@ -52,17 +90,23 @@ function Postcard() {
                     value={caption}
                     onChange={(e) => setCaption(e.target.value)}
                     placeholder="Edit caption"
+                    disabled={!isOwner}
                 />
 
-                <div className="btn-group">
-                    <button type="submit">Update</button>
-                    <button type="button" className="delete" onClick={deletePost}>
-                        Delete
-                    </button>
-                </div>
-            </form>
 
-            <button onClick={() => navigate("/feed")}>Back</button>
+                {isOwner && (
+                    <div className="btn-group">
+                        <button type="submit">Update</button>
+                        <button
+                            type="button"
+                            className="delete"
+                            onClick={deletePost}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                )}
+            </form>
         </div>
     )
 }
